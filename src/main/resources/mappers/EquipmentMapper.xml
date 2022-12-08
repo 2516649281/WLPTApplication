@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chunfeng.mapper.EquipmentMapper">
+    <!--字段映射-->
+    <resultMap id="eqMap" type="com.chunfeng.entity.Equipment">
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <!--查询所有设备信息-->
+    <select id="selectAllEquip" resultType="com.chunfeng.entity.Equipment" resultMap="eqMap">
+        select id,
+               uid,
+               num,
+               name,
+               create_user,
+               update_user,
+               create_time,
+               update_time
+        from equipment;
+    </select>
+    <!--根据ID查询设备-->
+    <select id="selectAllEquipById" resultType="com.chunfeng.entity.Equipment" resultMap="eqMap">
+        select id,
+               uid,
+               num,
+               name,
+               create_user,
+               update_user,
+               create_time,
+               update_time
+        from equipment
+        where id = #{id};
+    </select>
+    <!--根据名称查询设备-->
+    <select id="selectAllEquipByName" resultType="com.chunfeng.entity.Equipment" resultMap="eqMap">
+        select id,
+               uid,
+               num,
+               name,
+               create_user,
+               update_user,
+               create_time,
+               update_time
+        from equipment
+        where name like concat('%', #{name}, '%');
+    </select>
+    <!--添加一条设备-->
+    <insert id="insertEquip">
+        insert into equipment (uid, num, name, create_user, create_time)
+        values (#{uid}, #{num}, #{name}, #{createUser}, #{createTime});
+    </insert>
+    <!--修改一条设备-->
+    <update id="updateEquipById">
+        update equipment
+        <set>
+            <if test="uid!='' and uid!=null">
+                uid=#{uid},
+            </if>
+            <if test="num!=null">
+                num=#{num},
+            </if>
+            <if test="name!='' and name!=null">
+                name=#{name},
+            </if>
+            <if test="updateUser!=null">
+                update_user=#{updateUser},
+            </if>
+            <if test="updateTime!=null">
+                update_time=#{updateTime}
+            </if>
+        </set>
+        where id=#{id};
+    </update>
+    <!--根据ID值删除设备-->
+    <delete id="deleteEquipById">
+        delete
+        from equipment
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>;
+    </delete>
+    <!--根据Id获取数据库中的设备个数-->
+    <select id="countById" resultType="java.lang.Integer">
+        select count(*)
+        from equipment where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>;
+    </select>
+</mapper>

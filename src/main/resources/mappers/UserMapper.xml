@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chunfeng.mapper.UserMapper">
+    <!--字段映射-->
+    <resultMap id="userMap" type="com.chunfeng.entity.User">
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <!--查询所有用户-->
+    <select id="selectAllUser" resultType="com.chunfeng.entity.User" resultMap="userMap">
+        select id,
+               name,
+               password,
+               status,
+               create_user,
+               update_user,
+               create_time,
+               update_time
+        from user;
+    </select>
+    <!--根据ID值查询用户-->
+    <select id="selectAllUserById" resultType="com.chunfeng.entity.User" resultMap="userMap">
+        select id,
+               name,
+               password,
+               status,
+               create_user,
+               update_user,
+               create_time,
+               update_time
+        from user
+        where id = #{id};
+    </select>
+    <!--根据用户名查询用户-->
+    <select id="selectAllUserByName" resultType="com.chunfeng.entity.User" resultMap="userMap">
+        select id,
+               name,
+               password,
+               status,
+               create_user,
+               update_user,
+               create_time,
+               update_time
+        from user
+        where name = #{name};
+    </select>
+    <!--添加一条用户信息-->
+    <insert id="insertUser">
+        insert into user (name, password, create_user, create_time)
+        values (#{name}, #{password}, #{createUser}, #{createTime});
+    </insert>
+    <!--根据ID值修改一条用户信息-->
+    <update id="updateUserById">
+        update user
+        <set>
+            <if test="name!='' and name!=null">
+                name=#{name},
+            </if>
+            <if test="password!='' and password!=null">
+                password=#{password},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+            <if test="updateUser!=null">
+                update_user=#{updateUser},
+            </if>
+            <if test="updateTime!=null">
+                update_time=#{updateTime}
+            </if>
+        </set>
+        where id=#{id};
+    </update>
+    <!--根据ID值删除用户信息-->
+    <delete id="deleteUserById">
+        delete
+        from user
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>;
+    </delete>
+    <!--根据Id获取数据库中的用户个数-->
+    <select id="countById" resultType="java.lang.Integer">
+        select count(*)
+        from user where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>;
+    </select>
+</mapper>

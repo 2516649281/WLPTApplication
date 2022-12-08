@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chunfeng.mapper.SensorConfigMapper">
+    <!--字段映射-->
+    <resultMap id="senMap" type="com.chunfeng.entity.SensorConfig">
+        <result column="equip_id" property="equipId"/>
+        <result column="max_value" property="maxValue"/>
+        <result column="min_value" property="minValue"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <!--查询所有传感器配置信息-->
+    <select id="selectAllSensor" resultType="com.chunfeng.entity.SensorConfig" resultMap="senMap">
+        select id,
+               equip_id,
+               name,
+               max_value,
+               min_value,
+               create_user,
+               update_user,
+               create_time,
+               update_time
+        from sensor_config;
+    </select>
+    <!--根据ID查询传感器配置-->
+    <select id="selectAllSensorById" resultType="com.chunfeng.entity.SensorConfig" resultMap="senMap">
+        select id,
+               equip_id,
+               name,
+               max_value,
+               min_value,
+               create_user,
+               update_user,
+               create_time,
+               update_time
+        from sensor_config
+        where id = #{id};
+    </select>
+    <!--根据名称查询传感器配置-->
+    <select id="selectAllSensorByName" resultType="com.chunfeng.entity.SensorConfig" resultMap="senMap">
+        select id,
+               equip_id,
+               name,
+               max_value,
+               min_value,
+               create_user,
+               update_user,
+               create_time,
+               update_time
+        from sensor_config
+        where name like concat('%', #{name}, '%');
+    </select>
+    <!--根据设备ID查询传感器配置-->
+    <select id="selectAllSensorByEquipId" resultType="com.chunfeng.entity.SensorConfig" resultMap="senMap">
+        select id,
+               equip_id,
+               name,
+               max_value,
+               min_value,
+               create_user,
+               update_user,
+               create_time,
+               update_time
+        from sensor_config
+        where equip_id = #{uid};
+    </select>
+    <!--添加一条传感器配置-->
+    <insert id="insertSensor">
+        insert into sensor_config (equip_id, name, max_value, min_value, create_user, create_time)
+        values (#{equipId}, #{name}, #{maxValue}, #{minValue}, #{createUser}, #{createTime});
+    </insert>
+    <!--修改一条传感器配置-->
+    <update id="updateSensorById">
+        update sensor_config
+        <set>
+            <if test="equipId!=null">
+                equip_id=#{equipId},
+            </if>
+            <if test="name!='' and name!=null">
+                name=#{name},
+            </if>
+            <if test="maxValue!=null">
+                max_value=#{maxValue},
+            </if>
+            <if test="minValue!=null">
+                min_value=#{minValue},
+            </if>
+            <if test="updateUser!=null">
+                update_user=#{updateUser},
+            </if>
+            <if test="updateTime!=null">
+                update_time=#{updateTime}
+            </if>
+        </set>
+        where id=#{id};
+    </update>
+    <!--根据ID值删除传感器配置-->
+    <delete id="deleteSensorById">
+        delete
+        from sensor_config
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>;
+    </delete>
+    <!--根据Id获取数据库中的传感器个数-->
+    <select id="countById" resultType="java.lang.Integer">
+        select count(*)
+        from sensor_config where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>;
+    </select>
+</mapper>
