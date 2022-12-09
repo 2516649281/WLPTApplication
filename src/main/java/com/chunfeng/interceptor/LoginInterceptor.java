@@ -43,7 +43,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //主页面设备查询逻辑放行
-        if (request.getMethod().equals("GET")) {
+        if (request.getMethod().equals("GET") && !request.getRequestURI().equals("/user")) {
             log.info("拦截器放行特殊路径!");
             return true;
         }

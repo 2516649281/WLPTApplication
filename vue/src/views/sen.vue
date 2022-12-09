@@ -74,15 +74,30 @@
       <el-form-item prop="name" label="传感器名">
         <el-input v-model="this.insertSenForm.name"></el-input>
       </el-form-item>
-      <el-form-item prop="equipId" label="传感器ID">
-        <el-input v-model="this.insertSenForm.equipId"></el-input>
+      <el-form-item prop="equipId" label="选择设备">
+        <el-select
+            v-model="this.insertSenForm.equipId"
+            placeholder="选择设备"
+            clearable
+        >
+          <el-option v-for="item in equMap" :key="item.key" :value="item.value"
+          ><span style="float: left">{{ item.label }}</span>
+            <span
+                style="
+                float: right;
+                color: var(--el-text-color-secondary);
+                font-size: 13px;
+              "
+            >{{ item.value }}</span
+            ></el-option
+          >
+        </el-select>
       </el-form-item>
       <el-form-item prop="maxValue" label="最大值">
         <el-input-number v-model="this.insertSenForm.maxValue"/>
       </el-form-item>
       <el-form-item prop="minValue" label="最小值">
-        <el-input-number v-model="this.updateSenForm.minValue"
-        />
+        <el-input-number v-model="this.updateSenForm.minValue"/>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -109,15 +124,30 @@
       <el-form-item prop="name" label="传感器名">
         <el-input v-model="this.updateSenForm.name"></el-input>
       </el-form-item>
-      <el-form-item prop="equipId" label="传感器ID">
-        <el-input v-model="this.updateSenForm.equipId"></el-input>
+      <el-form-item prop="equipId" label="选择设备">
+        <el-select
+            v-model="this.updateSenForm.equipId"
+            placeholder="选择设备"
+            clearable
+        >
+          <el-option v-for="item in equMap" :key="item.key" :value="item.value"
+          ><span style="float: left">{{ item.label }}</span>
+            <span
+                style="
+                float: right;
+                color: var(--el-text-color-secondary);
+                font-size: 13px;
+              "
+            >{{ item.value }}</span
+            ></el-option
+          >
+        </el-select>
       </el-form-item>
       <el-form-item prop="maxValue" label="最大值">
         <el-input-number v-model="this.updateSenForm.maxValue"/>
       </el-form-item>
       <el-form-item prop="minValue" label="最小值">
-        <el-input-number v-model="this.updateSenForm.minValue"
-        />
+        <el-input-number v-model="this.updateSenForm.minValue"/>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -137,6 +167,8 @@ import {
   updateOneSen,
   deleteOneSen,
 } from "../api/sen";
+
+import {lookAllEqu} from "../api/equ";
 
 export default {
   data() {
@@ -202,6 +234,8 @@ export default {
       },
       //列宽
       defaultColumn: 160,
+      //设备列表
+      equMap: [],
       //表格列名集合
       tableColumn: [
         {
@@ -234,6 +268,7 @@ export default {
   },
   created() {
     this.lookAllSen();
+    this.lookAllEqu();
   },
   methods: {
     //查看所有传感器逻辑
@@ -241,6 +276,20 @@ export default {
       lookAllSen().then((req) => {
         this.tableData = req.data.data;
         console.log(this.tableData);
+      });
+    },
+    //获取所有设备
+    lookAllEqu() {
+      lookAllEqu().then((req) => {
+        var equList = req.data.data;
+        for (let i = 0; i < equList.length; i++) {
+          var a = {
+            key: i,
+            value: equList[i].uid,
+            label: equList[i].name,
+          };
+          this.equMap.push(a);
+        }
       });
     },
     //根据传感器名查询传感器

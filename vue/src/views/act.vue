@@ -74,8 +74,24 @@
       <el-form-item prop="name" label="执行器名">
         <el-input v-model="this.insertActForm.name"></el-input>
       </el-form-item>
-      <el-form-item prop="equipId" label="执行器ID">
-        <el-input v-model="this.insertActForm.equipId"></el-input>
+      <el-form-item prop="equipId" label="选择设备">
+        <el-select
+            v-model="this.insertActForm.equipId"
+            placeholder="选择设备"
+            clearable
+        >
+          <el-option v-for="item in equMap" :key="item.key" :value="item.value"
+          ><span style="float: left">{{ item.label }}</span>
+            <span
+                style="
+                float: right;
+                color: var(--el-text-color-secondary);
+                font-size: 13px;
+              "
+            >{{ item.value }}</span
+            ></el-option
+          >
+        </el-select>
       </el-form-item>
       <el-form-item prop="valueList" label="取值范围">
         <el-input
@@ -108,8 +124,24 @@
       <el-form-item prop="name" label="执行器名">
         <el-input v-model="this.updateActForm.name"></el-input>
       </el-form-item>
-      <el-form-item prop="equipId" label="执行器ID">
-        <el-input v-model="this.updateActForm.equipId"></el-input>
+      <el-form-item prop="equipId" label="选择设备">
+        <el-select
+            v-model="this.updateActForm.equipId"
+            placeholder="选择设备"
+            clearable
+        >
+          <el-option v-for="item in equMap" :key="item.key" :value="item.value"
+          ><span style="float: left">{{ item.label }}</span>
+            <span
+                style="
+                float: right;
+                color: var(--el-text-color-secondary);
+                font-size: 13px;
+              "
+            >{{ item.value }}</span
+            ></el-option
+          >
+        </el-select>
       </el-form-item>
       <el-form-item prop="valueList" label="取值范围">
         <el-input
@@ -135,6 +167,8 @@ import {
   updateOneAct,
   deleteOneAct,
 } from "../api/act";
+
+import {lookAllEqu} from "../api/equ";
 
 export default {
   data() {
@@ -175,7 +209,7 @@ export default {
         equipId: [
           {
             required: true,
-            message: "设备ID不得为空!",
+            message: "请选择设备!",
             trigger: "blur",
           },
         ],
@@ -183,13 +217,15 @@ export default {
         valueList: [
           {
             required: true,
-            message: "取值范围不得为空",
+            message: "取值范围不得为空!",
             trigger: "change",
           },
         ],
       },
       //列宽
       defaultColumn: 160,
+      //设备列表
+      equMap: [],
       //表格列名集合
       tableColumn: [
         {
@@ -199,7 +235,7 @@ export default {
         },
         {
           index: 2,
-          label: "执行器ID",
+          label: "设备ID",
           prop: "equipId",
         },
         {
@@ -217,6 +253,7 @@ export default {
   },
   created() {
     this.lookAllAct();
+    this.lookAllEqu();
   },
   methods: {
     //查看所有执行器逻辑
@@ -224,6 +261,20 @@ export default {
       lookAllAct().then((req) => {
         this.tableData = req.data.data;
         console.log(this.tableData);
+      });
+    },
+    //获取所有设备
+    lookAllEqu() {
+      lookAllEqu().then((req) => {
+        var equList = req.data.data;
+        for (let i = 0; i < equList.length; i++) {
+          var a = {
+            key: i,
+            value: equList[i].uid,
+            label: equList[i].name,
+          };
+          this.equMap.push(a);
+        }
       });
     },
     //根据执行器名查询执行器
