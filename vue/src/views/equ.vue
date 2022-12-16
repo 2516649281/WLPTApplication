@@ -75,10 +75,16 @@
         @keyup.enter="this.insertOneEqu(this.insertEquForm)"
     >
       <el-form-item prop="name" label="设备名">
-        <el-input v-model="this.insertEquForm.name"></el-input>
+        <el-input
+            v-model="this.insertEquForm.name"
+            placeholder="定义设备名"
+        ></el-input>
       </el-form-item>
       <el-form-item prop="uid" label="设备ID">
-        <el-input v-model="this.insertEquForm.uid"></el-input>
+        <el-input
+            v-model="this.insertEquForm.uid"
+            placeholder="定义设备ID"
+        ></el-input>
       </el-form-item>
       <el-form-item prop="num" label="设备通道号">
         <el-input-number v-model="this.insertEquForm.num" :min="1"/>
@@ -106,10 +112,16 @@
         @keyup.enter="this.updateOneEqu(this.updateEquForm)"
     >
       <el-form-item prop="name" label="设备名">
-        <el-input v-model="this.updateEquForm.name"></el-input>
+        <el-input
+            v-model="this.updateEquForm.name"
+            placeholder="输入设备名"
+        ></el-input>
       </el-form-item>
       <el-form-item prop="uid" label="设备ID">
-        <el-input v-model="this.updateEquForm.uid"></el-input>
+        <el-input
+            v-model="this.updateEquForm.uid"
+            placeholder="输入设备ID"
+        ></el-input>
       </el-form-item>
       <el-form-item prop="num" label="设备通道号">
         <el-input-number v-model="this.updateEquForm.num" :min="1"/>
@@ -176,11 +188,11 @@ export default {
             trigger: "change",
           },
         ],
-        //设备名
+        //设备ID
         uid: [
           {
             required: true,
-            message: "设备名不得为空!",
+            message: "设备ID不得为空!",
             trigger: "blur",
           },
         ],

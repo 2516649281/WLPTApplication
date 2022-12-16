@@ -72,7 +72,10 @@
         @keyup.enter="this.insertOneSen(this.insertSenForm)"
     >
       <el-form-item prop="name" label="传感器名">
-        <el-input v-model="this.insertSenForm.name"></el-input>
+        <el-input
+            v-model="this.insertSenForm.name"
+            placeholder="输入传感器名"
+        ></el-input>
       </el-form-item>
       <el-form-item prop="equipId" label="选择设备">
         <el-select
@@ -122,7 +125,10 @@
         @keyup.enter="this.updateOneSen(this.updateSenForm)"
     >
       <el-form-item prop="name" label="传感器名">
-        <el-input v-model="this.updateSenForm.name"></el-input>
+        <el-input
+            v-model="this.updateSenForm.name"
+            placeholder="输入传感器名"
+        ></el-input>
       </el-form-item>
       <el-form-item prop="equipId" label="选择设备">
         <el-select
@@ -245,7 +251,7 @@ export default {
         },
         {
           index: 2,
-          label: "传感器ID",
+          label: "设备ID",
           prop: "equipId",
         },
         {

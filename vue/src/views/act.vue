@@ -72,7 +72,10 @@
         @keyup.enter="this.insertOneAct(this.insertActForm)"
     >
       <el-form-item prop="name" label="执行器名">
-        <el-input v-model="this.insertActForm.name"></el-input>
+        <el-input
+            v-model="this.insertActForm.name"
+            placeholder="输入执行器名"
+        ></el-input>
       </el-form-item>
       <el-form-item prop="equipId" label="选择设备">
         <el-select
@@ -122,7 +125,10 @@
         @keyup.enter="this.updateOneAct(this.updateActForm)"
     >
       <el-form-item prop="name" label="执行器名">
-        <el-input v-model="this.updateActForm.name"></el-input>
+        <el-input
+            v-model="this.updateActForm.name"
+            placeholder="输入执行器名"
+        ></el-input>
       </el-form-item>
       <el-form-item prop="equipId" label="选择设备">
         <el-select
